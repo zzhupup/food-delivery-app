@@ -109,7 +109,7 @@ function generateDishImage(dishName, dishDescription) {
     '中杯可乐': 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=400&h=300&fit=crop',
     '香辣鸡腿堡套餐': 'https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=400&h=300&fit=crop',
     '香辣鸡翅': 'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=400&h=300&fit=crop',
-    '黄金鸡块': 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Chicken_nuggets%2C_chips_and_peas.jpg/400px-Chicken_nuggets%2C_chips_and_peas.jpg'
+    '黄金鸡块': 'https://upload.wikimedia.org/wikipedia/commons/2/23/Chicken_nuggets_McDonald%27s.jpg'
   }
   
   // 优先精确匹配
