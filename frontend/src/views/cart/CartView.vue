@@ -62,9 +62,15 @@
             <!-- 商品图片 -->
             <div class="item-image">
               <el-image 
-                :src="item.dishImage || '/placeholder.png'" 
+                :src="item.dishImage || generateDishImage(item.dishName)" 
                 fit="cover"
+                loading="lazy"
                 class="dish-image">
+                <template #placeholder>
+                  <div class="image-placeholder">
+                    <el-icon><Picture /></el-icon>
+                  </div>
+                </template>
                 <template #error>
                   <div class="image-error">
                     <el-icon><Picture /></el-icon>
@@ -148,6 +154,26 @@ import { useRouter } from 'vue-router'
 
 const cartStore = useCartStore()
 const router = useRouter()
+
+// 生成菜品图片（复用 DishList 的逻辑）
+function generateDishImage(dishName) {
+  const imageMap = {
+    '巨无霸': 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=200&h=150&fit=crop&q=80',
+    '麦香鸡': 'https://images.unsplash.com/photo-2097090/pexels-photo-2097090.jpeg?w=200&h=150&fit=crop&q=80',
+    '汉堡': 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=200&h=150&fit=crop&q=80',
+    '可乐': 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=200&h=150&fit=crop&q=80',
+    '鸡翅': 'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=200&h=150&fit=crop&q=80',
+    '鸡块': '/chicken-nuggets.svg'
+  }
+  
+  for (const [cn, url] of Object.entries(imageMap)) {
+    if (dishName && dishName.includes(cn)) {
+      return url
+    }
+  }
+  
+  return 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=200&h=150&fit=crop&q=80'
+}
 
 const batchLoading = ref(false)
 const deletingId = ref(null)
@@ -319,16 +345,24 @@ function handleCheckout() {
   border-radius: 8px;
 }
 
+.image-placeholder,
 .image-error {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 80px;
   height: 80px;
-  background-color: #f5f7fa;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
   color: #909399;
   font-size: 30px;
   border-radius: 8px;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
 
 .item-info {

@@ -33,7 +33,10 @@ export default {
     return request({
       url: '/cart/add',
       method: 'post',
-      params: { dishId, count }
+      params: { 
+        dishId: dishId,
+        count: count 
+      }
     })
   },
 

@@ -15,9 +15,12 @@ import java.util.Map;
 public class JwtUtil {
 
     /**
-     * 密钥（实际项目中应该放在配置文件或环境变量中）
+     * 密钥（从环境变量读取，生产环境必须修改）
+     * 启动时设置：export JWT_SECRET="your-secure-random-string-here"
      */
-    private static final String SECRET = "takeout-platform-secret-key-2024";
+    private static final String SECRET = System.getenv("JWT_SECRET") != null 
+            ? System.getenv("JWT_SECRET") 
+            : "takeout-platform-secret-key-2024-change-in-production";
 
     /**
      * Token 过期时间：7 天

@@ -21,14 +21,14 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/takeout_db?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
-    username: root
-    password: root123
+    username: ${DB_USERNAME:root}  # 支持环境变量覆盖
+    password: ${DB_PASSWORD:root123}  # ⚠️ 生产环境必须修改！
   
-  # Redis 配置
+  # Redis 配置（可选，用于缓存和会话管理）
   redis:
-    host: localhost
-    port: 6379
-    password: 
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+    password: ${REDIS_PASSWORD:}
     database: 0
     timeout: 10000ms
     lettuce:
