@@ -124,7 +124,7 @@ public class CartItemServiceImpl extends ServiceImpl<CartItemMapper, CartItem> i
                 dto.setAmount(dish.getPrice().multiply(BigDecimal.valueOf(item.getCount())));
                 dto.setCreateTime(item.getCreateTime());
                 dto.setUpdateTime(item.getUpdateTime());
-                dtoList.add(vo);
+                dtoList.add(dto);
             }
         }
 
