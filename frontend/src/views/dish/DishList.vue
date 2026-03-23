@@ -108,8 +108,8 @@ function generateDishImage(dishName, dishDescription) {
     '麦香鸡汉堡': 'https://images.unsplash.com/photo-1606755962773-d324e0a13086?w=400&h=300&fit=crop',
     '中杯可乐': 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=400&h=300&fit=crop',
     '香辣鸡腿堡套餐': 'https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=400&h=300&fit=crop',
-    '香辣鸡翅': 'https://images.unsplash.com/photo-1608039829572-78524f79c4c7?w=400&h=300&fit=crop',
-    '黄金鸡块': 'https://images.unsplash.com/photo-1562967963-ed7b51588813?w=400&h=300&fit=crop'
+    '香辣鸡翅': 'https://images.unsplash.com/photo-1527477396000-6489b58161b1?w=400&h=300&fit=crop',
+    '黄金鸡块': 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=400&h=300&fit=crop'
   }
   
   // 优先精确匹配
