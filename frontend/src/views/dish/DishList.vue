@@ -35,6 +35,7 @@
                 <el-image 
                   :src="dish.image" 
                   fit="cover"
+                  loading="lazy"
                   class="dish-img">
                   <template #placeholder>
                     <div class="image-placeholder">
@@ -100,15 +101,15 @@ const addingId = ref(null)
  * 使用高质量美食图片（Pexels 免费图库）
  */
 function generateDishImage(dishName, dishDescription) {
-  // 精确匹配菜品到具体图片 URL（使用 Unsplash 可靠图片）
+  // 精确匹配菜品到具体图片 URL（使用优化参数加速加载）
   const exactMap = {
-    '巨无霸套餐': 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&h=300&fit=crop',
-    '麦香鸡套餐': 'https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=400&h=300&fit=crop',
-    '巨无霸汉堡': 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&h=300&fit=crop',
-    '麦香鸡汉堡': 'https://images.unsplash.com/photo-1606755962773-d324e0a13086?w=400&h=300&fit=crop',
-    '中杯可乐': 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=400&h=300&fit=crop',
-    '香辣鸡腿堡套餐': 'https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=400&h=300&fit=crop',
-    '香辣鸡翅': 'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=400&h=300&fit=crop',
+    '巨无霸套餐': 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=200&h=150&fit=crop&q=80',
+    '麦香鸡套餐': 'https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=200&h=150&fit=crop&q=80',
+    '巨无霸汉堡': 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=200&h=150&fit=crop&q=80',
+    '麦香鸡汉堡': 'https://images.unsplash.com/photo-1606755962773-d324e0a13086?w=200&h=150&fit=crop&q=80',
+    '中杯可乐': 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=200&h=150&fit=crop&q=80',
+    '香辣鸡腿堡套餐': 'https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=200&h=150&fit=crop&q=80',
+    '香辣鸡翅': 'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=200&h=150&fit=crop&q=80',
     '黄金鸡块': '/chicken-nuggets.svg'
   }
   
@@ -134,6 +135,16 @@ function generateDishImage(dishName, dishDescription) {
   
   // 默认返回汉堡图片
   return 'https://images.pexels.com/photos/1633578/pexels-photo-1633578.jpeg?w=400&h=300&fit=crop'
+}
+
+// 预加载图片函数
+function preloadImages(urls) {
+  urls.forEach(url => {
+    if (url && !url.startsWith('/')) {
+      const img = new Image()
+      img.src = url
+    }
+  })
 }
 
 // 加载菜品列表
@@ -232,11 +243,24 @@ async function addToCart(dish) {
   overflow: hidden;
   border-radius: 8px 8px 0 0;
   margin: -16px -16px 0 -16px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
 
 .dish-img {
   width: 100%;
   height: 100%;
+  transition: transform 0.3s;
+}
+
+.dish-img:hover {
+  transform: scale(1.05);
 }
 
 .image-placeholder,
