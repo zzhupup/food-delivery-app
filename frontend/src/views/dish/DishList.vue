@@ -100,37 +100,40 @@ const addingId = ref(null)
  * 使用高质量美食图片（Pexels 免费图库）
  */
 function generateDishImage(dishName, dishDescription) {
-  // 直接映射到具体的美食图片 URL（Pexels 免费高质量图片）
-  const imageMap = {
-    '巨无霸': 'https://images.pexels.com/photos/1633578/pexels-photo-1633578.jpeg?w=400&h=300&fit=crop',
-    '麦香鸡': 'https://images.pexels.com/photos/2097090/pexels-photo-2097090.jpeg?w=400&h=300&fit=crop',
-    '汉堡': 'https://images.pexels.com/photos/1633578/pexels-photo-1633578.jpeg?w=400&h=300&fit=crop',
-    '套餐': 'https://images.pexels.com/photos/1267320/pexels-photo-1267320.jpeg?w=400&h=300&fit=crop',
-    '可乐': 'https://images.pexels.com/photos/10922927/pexels-photo-10922927.jpeg?w=400&h=300&fit=crop',
-    '香辣': 'https://images.pexels.com/photos/616367/pexels-photo-616367.jpeg?w=400&h=300&fit=crop',
-    '鸡翅': 'https://images.pexels.com/photos/616367/pexels-photo-616367.jpeg?w=400&h=300&fit=crop',
-    '鸡块': 'https://images.pexels.com/photos/7625056/pexels-photo-7625056.jpeg?w=400&h=300&fit=crop',
-    '薯条': 'https://images.pexels.com/photos/1583885/pexels-photo-1583885.jpeg?w=400&h=300&fit=crop',
-    '炸鸡': 'https://images.pexels.com/photos/6210749/pexels-photo-6210749.jpeg?w=400&h=300&fit=crop',
-    '火锅': 'https://images.pexels.com/photos/1281619/pexels-photo-1281619.jpeg?w=400&h=300&fit=crop',
-    '米饭': 'https://images.pexels.com/photos/2611810/pexels-photo-2611810.jpeg?w=400&h=300&fit=crop',
-    '面条': 'https://images.pexels.com/photos/2456435/pexels-photo-2456435.jpeg?w=400&h=300&fit=crop',
-    '披萨': 'https://images.pexels.com/photos/1146760/pexels-photo-1146760.jpeg?w=400&h=300&fit=crop',
-    '沙拉': 'https://images.pexels.com/photos/1640770/pexels-photo-1640770.jpeg?w=400&h=300&fit=crop',
-    '咖啡': 'https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg?w=400&h=300&fit=crop',
-    '奶茶': 'https://images.pexels.com/photos/5479102/pexels-photo-5479102.jpeg?w=400&h=300&fit=crop',
-    '饮料': 'https://images.pexels.com/photos/1146760/pexels-photo-1146760.jpeg?w=400&h=300&fit=crop'
+  // 精确匹配菜品到具体图片 URL
+  const exactMap = {
+    '巨无霸套餐': 'https://images.pexels.com/photos/1633578/pexels-photo-1633578.jpeg?w=400&h=300&fit=crop',
+    '麦香鸡套餐': 'https://images.pexels.com/photos/1267320/pexels-photo-1267320.jpeg?w=400&h=300&fit=crop',
+    '巨无霸汉堡': 'https://images.pexels.com/photos/1633578/pexels-photo-1633578.jpeg?w=400&h=300&fit=crop',
+    '麦香鸡汉堡': 'https://images.pexels.com/photos/2097090/pexels-photo-2097090.jpeg?w=400&h=300&fit=crop',
+    '中杯可乐': 'https://images.pexels.com/photos/10922927/pexels-photo-10922927.jpeg?w=400&h=300&fit=crop',
+    '香辣鸡腿堡套餐': 'https://images.pexels.com/photos/1267320/pexels-photo-1267320.jpeg?w=400&h=300&fit=crop',
+    '香辣鸡翅': 'https://images.pexels.com/photos/616367/pexels-photo-616367.jpeg?w=400&h=300&fit=crop',
+    '黄金鸡块': 'https://images.pexels.com/photos/7625056/pexels-photo-7625056.jpeg?w=400&h=300&fit=crop'
   }
   
-  // 查找匹配的图片
-  for (const [cn, url] of Object.entries(imageMap)) {
+  // 优先精确匹配
+  if (exactMap[dishName]) {
+    return exactMap[dishName]
+  }
+  
+  // 其次模糊匹配关键词
+  const keywordMap = {
+    '汉堡': 'https://images.pexels.com/photos/1633578/pexels-photo-1633578.jpeg?w=400&h=300&fit=crop',
+    '可乐': 'https://images.pexels.com/photos/10922927/pexels-photo-10922927.jpeg?w=400&h=300&fit=crop',
+    '鸡翅': 'https://images.pexels.com/photos/616367/pexels-photo-616367.jpeg?w=400&h=300&fit=crop',
+    '鸡块': 'https://images.pexels.com/photos/7625056/pexels-photo-7625056.jpeg?w=400&h=300&fit=crop',
+    '套餐': 'https://images.pexels.com/photos/1267320/pexels-photo-1267320.jpeg?w=400&h=300&fit=crop'
+  }
+  
+  for (const [cn, url] of Object.entries(keywordMap)) {
     if (dishName.includes(cn)) {
       return url
     }
   }
   
-  // 默认返回美食图片
-  return 'https://images.pexels.com/photos/1640770/pexels-photo-1640770.jpeg?w=400&h=300&fit=crop'
+  // 默认返回汉堡图片
+  return 'https://images.pexels.com/photos/1633578/pexels-photo-1633578.jpeg?w=400&h=300&fit=crop'
 }
 
 // 加载菜品列表
