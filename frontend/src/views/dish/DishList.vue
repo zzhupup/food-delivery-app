@@ -96,45 +96,48 @@ const searchText = ref('')
 const addingId = ref(null)
 
 /**
- * 根据菜品名称生成图片 URL
- * 使用 Lorem Foods 和 Picsum 等免费图片服务
+ * 根据菜品名称和描述生成 AI 图片 URL
+ * 使用 Pollinations.ai 免费 AI 图像生成服务
  */
-function generateDishImage(dishName) {
-  // 菜品关键词映射（中文 -> 英文搜索词）
-  const keywordMap = {
-    '巨无霸': 'burger',
-    '汉堡': 'burger',
-    '麦香鸡': 'chicken-burger',
-    '套餐': 'fast-food',
-    '可乐': 'cola',
-    '香辣': 'spicy-chicken',
-    '鸡翅': 'chicken-wings',
-    '鸡块': 'chicken-nuggets',
-    '薯条': 'fries',
-    '炸鸡': 'fried-chicken',
-    '火锅': 'hotpot',
-    '米饭': 'rice',
-    '面条': 'noodles',
-    '披萨': 'pizza',
-    '沙拉': 'salad',
-    '咖啡': 'coffee',
-    '奶茶': 'bubble-tea',
-    '饮料': 'drink'
+function generateDishImage(dishName, dishDescription) {
+  // 菜品描述映射（中文 -> 英文 AI 提示词）
+  const promptMap = {
+    '巨无霸': 'delicious big mac burger with beef patty cheese lettuce tomato pickles sesame seed bun professional food photography',
+    '麦香鸡': 'crispy chicken burger with fresh lettuce tomato sauce soft bun professional food photography',
+    '汉堡': 'juicy hamburger with beef patty cheese lettuce tomato onion professional food photography',
+    '套餐': 'fast food combo meal with burger fries and drink on tray professional food photography',
+    '可乐': 'ice cold cola drink in glass with ice cubes condensation professional food photography',
+    '香辣': 'spicy crispy chicken wings with red chili peppers hot sauce professional food photography',
+    '鸡翅': 'golden fried chicken wings crispy skin professional food photography',
+    '鸡块': 'golden chicken nuggets crispy fried with dipping sauce professional food photography',
+    '薯条': 'golden french fries crispy salted in paper container professional food photography',
+    '炸鸡': 'crispy fried chicken pieces golden brown professional food photography',
+    '火锅': 'chinese hotpot with spicy broth meat vegetables steam rising professional food photography',
+    '米饭': 'steamed white rice bowl with chopsticks professional food photography',
+    '面条': 'delicious noodles with broth vegetables meat professional food photography',
+    '披萨': 'italian pizza with pepperoni cheese tomato sauce melted professional food photography',
+    '沙拉': 'fresh vegetable salad with lettuce tomato cucumber dressing professional food photography',
+    '咖啡': 'hot coffee in ceramic cup steam rising professional food photography',
+    '奶茶': 'bubble tea milk tea with tapioca pearls in plastic cup professional food photography',
+    '饮料': 'refreshing cold drink with ice cubes professional food photography'
   }
   
-  // 查找匹配的关键词
-  let keyword = 'food'
-  for (const [cn, en] of Object.entries(keywordMap)) {
+  // 查找匹配的提示词
+  let prompt = 'delicious chinese food professional photography'
+  for (const [cn, enPrompt] of Object.entries(promptMap)) {
     if (dishName.includes(cn)) {
-      keyword = en
+      prompt = enPrompt
       break
     }
   }
   
-  // 使用 Lorem Foods API（专门的美食图片）
-  // 或者使用 Picsum 作为备选
-  const seed = dishName.replace(/\s/g, '-').toLowerCase()
-  return `https://loremflickr.com/400/300/${keyword}?lock=${seed.length}`
+  // 使用菜品名称作为随机种子，确保同一菜品总是生成相同图片
+  const seed = dishName.split('').reduce((a, b) => ((a << 5) - a) + b.charCodeAt(0), 0) | 0
+  
+  // 使用 Pollinations.ai AI 图像生成 API
+  // 格式：https://image.pollinations.ai/prompt/{描述}?seed={种子}&width={宽}&height={高}&nologo=true
+  const encodedPrompt = encodeURIComponent(prompt)
+  return `https://image.pollinations.ai/prompt/${encodedPrompt}?seed=${Math.abs(seed)}&width=400&height=300&nologo=true`
 }
 
 // 加载菜品列表
@@ -149,10 +152,10 @@ async function loadDishes() {
     const result = await response.json()
     
     if (result.code === 200) {
-      // 为没有图片的菜品生成图片 URL
+      // 为没有图片的菜品生成 AI 图片 URL
       dishList.value = result.data.map(dish => ({
         ...dish,
-        image: dish.image || generateDishImage(dish.name)
+        image: dish.image || generateDishImage(dish.name, dish.description)
       }))
     } else {
       ElMessage.error(result.message || '加载菜品失败')
