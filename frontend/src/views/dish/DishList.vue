@@ -100,16 +100,16 @@ const addingId = ref(null)
  * 使用高质量美食图片（Pexels 免费图库）
  */
 function generateDishImage(dishName, dishDescription) {
-  // 精确匹配菜品到具体图片 URL
+  // 精确匹配菜品到具体图片 URL（使用 Unsplash 可靠图片）
   const exactMap = {
-    '巨无霸套餐': 'https://images.pexels.com/photos/1633578/pexels-photo-1633578.jpeg?w=400&h=300&fit=crop',
-    '麦香鸡套餐': 'https://images.pexels.com/photos/1267320/pexels-photo-1267320.jpeg?w=400&h=300&fit=crop',
-    '巨无霸汉堡': 'https://images.pexels.com/photos/1633578/pexels-photo-1633578.jpeg?w=400&h=300&fit=crop',
-    '麦香鸡汉堡': 'https://images.pexels.com/photos/2097090/pexels-photo-2097090.jpeg?w=400&h=300&fit=crop',
-    '中杯可乐': 'https://images.pexels.com/photos/10922927/pexels-photo-10922927.jpeg?w=400&h=300&fit=crop',
-    '香辣鸡腿堡套餐': 'https://images.pexels.com/photos/1267320/pexels-photo-1267320.jpeg?w=400&h=300&fit=crop',
-    '香辣鸡翅': 'https://images.pexels.com/photos/616367/pexels-photo-616367.jpeg?w=400&h=300&fit=crop',
-    '黄金鸡块': 'https://images.pexels.com/photos/7625056/pexels-photo-7625056.jpeg?w=400&h=300&fit=crop'
+    '巨无霸套餐': 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&h=300&fit=crop',
+    '麦香鸡套餐': 'https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=400&h=300&fit=crop',
+    '巨无霸汉堡': 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&h=300&fit=crop',
+    '麦香鸡汉堡': 'https://images.unsplash.com/photo-1606755962773-d324e0a13086?w=400&h=300&fit=crop',
+    '中杯可乐': 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=400&h=300&fit=crop',
+    '香辣鸡腿堡套餐': 'https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=400&h=300&fit=crop',
+    '香辣鸡翅': 'https://images.unsplash.com/photo-1608039829572-78524f79c4c7?w=400&h=300&fit=crop',
+    '黄金鸡块': 'https://images.unsplash.com/photo-1562967963-ed7b51588813?w=400&h=300&fit=crop'
   }
   
   // 优先精确匹配
