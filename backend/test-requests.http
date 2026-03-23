@@ -1,0 +1,60 @@
+### MyBatis-Plus 测试接口 - 快速测试
+
+# 健康检查
+GET http://localhost:8080/test/health
+
+###
+
+# 查询所有用户
+GET http://localhost:8080/test/users
+
+###
+
+# 根据 ID 查询用户
+GET http://localhost:8080/test/users/1
+
+###
+
+# 条件查询（状态=1 的用户）
+GET http://localhost:8080/test/users/search?status=1
+
+###
+
+# 条件查询（手机号包含 138）
+GET http://localhost:8080/test/users/search?phone=138
+
+###
+
+# 分页查询（第 1 页，每页 10 条）
+GET http://localhost:8080/test/users/page?page=1&size=10
+
+###
+
+# 新增用户
+POST http://localhost:8080/test/users
+Content-Type: application/json
+
+{
+  "phone": "13800138000",
+  "name": "测试用户",
+  "gender": 1,
+  "status": 1
+}
+
+###
+
+# 更新用户
+PUT http://localhost:8080/test/users
+Content-Type: application/json
+
+{
+  "id": 1,
+  "name": "更新后的名字"
+}
+
+###
+
+# 删除用户（逻辑删除）
+DELETE http://localhost:8080/test/users/1
+
+###

@@ -1,0 +1,79 @@
+# ======================
+# Node.js / Frontend
+# ======================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+.DS_Store
+
+# Vite
+dist/
+*.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# ======================
+# Java / Maven / Backend
+# ======================
+target/
+*.class
+*.log
+*.jar
+*.war
+*.ear
+
+# Maven
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+
+# IntelliJ IDEA
+.iml
+.idea/
+*.iws
+
+# Eclipse
+.classpath
+.project
+.settings/
+bin/
+
+# ======================
+# Common / General
+# ======================
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+temp/
+tmp/
+.cache/
+*.bak
+*.backup
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# ======================
+# Sensitive Files
+# ======================
+*.sql
+*.db
+database.sql
+dump.sql
+config/production/
+secrets/
