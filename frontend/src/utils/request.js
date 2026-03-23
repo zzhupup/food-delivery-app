@@ -4,8 +4,11 @@ import { ElMessage } from 'element-plus'
 // 创建 axios 实例
 const request = axios.create({
   baseURL: 'http://localhost:8080',
-  timeout: 10000,
-  withCredentials: false  // 禁用 CSRF cookie
+  timeout: 15000,  // 增加超时时间到 15 秒
+  withCredentials: false,
+  headers: {
+    'Content-Type': 'application/json'
+  }
 })
 
 // 请求拦截器

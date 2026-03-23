@@ -10,7 +10,12 @@ spring:
     pathmatch:
       matching-strategy: ant_path_matcher
     cors:
-      enabled: false  # 禁用 Spring Boot 自动 CORS
+      enabled: true  # 启用 CORS
+      allowed-origins: "*"  # 允许所有来源（开发环境）
+      allowed-methods: "*"  # 允许所有方法
+      allowed-headers: "*"  # 允许所有头部
+      allow-credentials: false
+      max-age: 3600
   
   # 数据源配置
   datasource:

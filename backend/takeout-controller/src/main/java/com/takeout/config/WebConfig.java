@@ -3,12 +3,13 @@ package com.takeout.config;
 import com.takeout.interceptor.LoginInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * Web 配置类
- * 配置拦截器
+ * 配置拦截器和 CORS
  *
  * @author 小好
  */
@@ -40,5 +41,18 @@ public class WebConfig implements WebMvcConfigurer {
                         "/v3/api-docs/**",
                         "/swagger-ui/**"
                 );
+    }
+
+    /**
+     * 配置 CORS 跨域
+     */
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOriginPatterns("*")  // 允许所有来源
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                .allowedHeaders("*")
+                .allowCredentials(false)
+                .maxAge(3600);
     }
 }
