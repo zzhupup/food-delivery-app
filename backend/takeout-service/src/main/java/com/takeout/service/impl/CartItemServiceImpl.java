@@ -3,7 +3,7 @@ package com.takeout.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.takeout.common.BaseContext;
-import com.takeout.dto.CartItemVO;
+import com.takeout.dto.CartItemDTO;
 import com.takeout.entity.Cart;
 import com.takeout.entity.CartItem;
 import com.takeout.entity.Dish;
@@ -78,7 +78,7 @@ public class CartItemServiceImpl extends ServiceImpl<CartItemMapper, CartItem> i
     }
 
     @Override
-    public List<CartItemVO> getCartItemsByCartId(Long cartId) {
+    public List<CartItemDTO> getCartItemsByCartId(Long cartId) {
         // 1. 获取当前用户 ID
         Long userId = BaseContext.getCurrentId();
         log.info("【查询购物车项】userId={}, cartId={}", userId, cartId);
@@ -109,27 +109,27 @@ public class CartItemServiceImpl extends ServiceImpl<CartItemMapper, CartItem> i
                 .collect(Collectors.toMap(Dish::getId, d -> d));
 
         // 5. 组装 VO 对象
-        List<CartItemVO> voList = new ArrayList<>();
+        List<CartItemDTO> dtoList = new ArrayList<>();
         for (CartItem item : cartItems) {
             Dish dish = dishMap.get(item.getDishId());
             if (dish != null) {
-                CartItemVO vo = new CartItemVO();
-                vo.setId(item.getId());
-                vo.setCartId(item.getCartId());
-                vo.setDishId(item.getDishId());
-                vo.setDishName(dish.getName());
-                vo.setDishImage(dish.getImage());
-                vo.setPrice(dish.getPrice());
-                vo.setCount(item.getCount());
-                vo.setAmount(dish.getPrice().multiply(BigDecimal.valueOf(item.getCount())));
-                vo.setCreateTime(item.getCreateTime());
-                vo.setUpdateTime(item.getUpdateTime());
-                voList.add(vo);
+                CartItemDTO dto = new CartItemDTO();
+                dto.setId(item.getId());
+                dto.setCartId(item.getCartId());
+                dto.setDishId(item.getDishId());
+                dto.setDishName(dish.getName());
+                dto.setDishImage(dish.getImage());
+                dto.setPrice(dish.getPrice());
+                dto.setCount(item.getCount());
+                dto.setAmount(dish.getPrice().multiply(BigDecimal.valueOf(item.getCount())));
+                dto.setCreateTime(item.getCreateTime());
+                dto.setUpdateTime(item.getUpdateTime());
+                dtoList.add(vo);
             }
         }
 
-        log.info("【查询完成】cartId={}, 共 {} 项", cartId, voList.size());
-        return voList;
+        log.info("【查询完成】cartId={}, 共 {} 项", cartId, dtoList.size());
+        return dtoList;
     }
 
     @Override

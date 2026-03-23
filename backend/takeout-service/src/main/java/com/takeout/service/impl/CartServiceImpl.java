@@ -3,7 +3,7 @@ package com.takeout.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.takeout.common.BaseContext;
-import com.takeout.dto.CartItemVO;
+import com.takeout.dto.CartItemDTO;
 import com.takeout.entity.Cart;
 import com.takeout.mapper.CartMapper;
 import com.takeout.service.CartItemService;
@@ -62,7 +62,7 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements Ca
     }
 
     @Override
-    public List<CartItemVO> getCurrentCartItems() {
+    public List<CartItemDTO> getCurrentCartItems() {
         try {
             // 1. 获取或创建购物车
             Cart cart = getCurrentCart();
@@ -126,11 +126,11 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements Ca
         log.info("【计算购物车总金额】userId={}, cartId={}", userId, cart.getId());
 
         // 2. 查询购物车项
-        List<CartItemVO> cartItems = cartItemService.getCartItemsByCartId(cart.getId());
+        List<CartItemDTO> cartItems = cartItemService.getCartItemsByCartId(cart.getId());
 
         // 3. 计算总金额（Stream API）
         BigDecimal totalAmount = cartItems.stream()
-                .map(CartItemVO::getAmount)
+                .map(CartItemDTO::getAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         log.info("【购物车总金额】totalAmount={}", totalAmount);

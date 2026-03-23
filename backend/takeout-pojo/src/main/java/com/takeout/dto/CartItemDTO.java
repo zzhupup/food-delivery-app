@@ -5,12 +5,13 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
- * 购物车项 VO（包含菜品信息）
+ * 购物车项 DTO（数据传输对象）
+ * 用于服务层之间传递购物车数据（包含菜品信息）
  *
  * @author 小好
  */
 @Data
-public class CartItemVO {
+public class CartItemDTO {
 
     /**
      * 购物车项 ID

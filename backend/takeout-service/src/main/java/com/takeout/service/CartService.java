@@ -1,7 +1,7 @@
 package com.takeout.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.takeout.dto.CartItemVO;
+import com.takeout.dto.CartItemDTO;
 import com.takeout.entity.Cart;
 
 import java.math.BigDecimal;
@@ -26,7 +26,7 @@ public interface CartService extends IService<Cart> {
      *
      * @return 购物车项 VO 列表
      */
-    List<CartItemVO> getCurrentCartItems();
+    List<CartItemDTO> getCurrentCartItems();
 
     /**
      * 添加商品到购物车

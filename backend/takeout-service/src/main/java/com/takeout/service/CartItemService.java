@@ -1,7 +1,7 @@
 package com.takeout.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.takeout.dto.CartItemVO;
+import com.takeout.dto.CartItemDTO;
 import com.takeout.entity.CartItem;
 
 import java.util.List;
@@ -28,7 +28,7 @@ public interface CartItemService extends IService<CartItem> {
      * @param cartId  购物车 ID
      * @return 购物车项列表（含菜品信息）
      */
-    List<CartItemVO> getCartItemsByCartId(Long cartId);
+    List<CartItemDTO> getCartItemsByCartId(Long cartId);
 
     /**
      * 更新购物车项数量

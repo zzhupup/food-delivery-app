@@ -1,7 +1,7 @@
 package com.takeout.controller;
 
 import com.takeout.Result;
-import com.takeout.dto.CartItemVO;
+import com.takeout.dto.CartItemDTO;
 import com.takeout.entity.Cart;
 import com.takeout.service.CartService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -50,9 +50,9 @@ public class CartController {
      */
     @GetMapping("/list")
     @Operation(summary = "查询当前用户购物车", description = "返回购物车项列表，包含菜品信息")
-    public Result<List<CartItemVO>> getCurrentCartItems() {
+    public Result<List<CartItemDTO>> getCurrentCartItems() {
         log.info("查询当前用户购物车");
-        List<CartItemVO> list = cartService.getCurrentCartItems();
+        List<CartItemDTO> list = cartService.getCurrentCartItems();
         return Result.success(list);
     }
 

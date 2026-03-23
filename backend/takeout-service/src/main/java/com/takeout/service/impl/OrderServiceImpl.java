@@ -2,7 +2,7 @@ package com.takeout.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.takeout.common.BaseContext;
-import com.takeout.dto.CartItemVO;
+import com.takeout.dto.CartItemDTO;
 import com.takeout.dto.OrderDTO;
 import com.takeout.entity.Orders;
 import com.takeout.mapper.OrdersMapper;
@@ -55,7 +55,7 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
         log.info("【创建订单】userId={}, shopId={}", userId, orderDTO.getShopId());
 
         // 2. 获取当前用户的购物车项（重构后）
-        List<CartItemVO> cartItems = cartItemService.getCartItemsByCartId(orderDTO.getCartId());
+        List<CartItemDTO> cartItems = cartItemService.getCartItemsByCartId(orderDTO.getCartId());
         if (cartItems == null || cartItems.isEmpty()) {
             throw new RuntimeException("购物车不能为空");
         }
@@ -65,7 +65,7 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
 
         // 4. 计算订单总金额
         BigDecimal totalAmount = cartItems.stream()
-                .map(CartItemVO::getAmount)
+                .map(CartItemDTO::getAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
         log.info("【订单金额】totalAmount={}", totalAmount);
 
