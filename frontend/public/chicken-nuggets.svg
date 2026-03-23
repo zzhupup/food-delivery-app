@@ -1,0 +1,68 @@
+<svg width="400" height="300" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景 -->
+  <rect width="400" height="300" fill="#FFF8E7"/>
+  
+  <!-- 盘子 -->
+  <ellipse cx="200" cy="160" rx="140" ry="100" fill="#FFFFFF" stroke="#E0E0E0" stroke-width="2"/>
+  
+  <!-- 鸡块 1 -->
+  <ellipse cx="170" cy="140" rx="35" ry="25" fill="#D4A574" stroke="#C49464" stroke-width="2"/>
+  <ellipse cx="170" cy="140" rx="35" ry="25" fill="url(#crispTexture1)" opacity="0.3"/>
+  
+  <!-- 鸡块 2 -->
+  <ellipse cx="230" cy="135" rx="38" ry="28" fill="#D4A574" stroke="#C49464" stroke-width="2"/>
+  <ellipse cx="230" cy="135" rx="38" ry="28" fill="url(#crispTexture2)" opacity="0.3"/>
+  
+  <!-- 鸡块 3 -->
+  <ellipse cx="185" cy="175" rx="36" ry="26" fill="#D4A574" stroke="#C49464" stroke-width="2"/>
+  <ellipse cx="185" cy="175" rx="36" ry="26" fill="url(#crispTexture3)" opacity="0.3"/>
+  
+  <!-- 鸡块 4 -->
+  <ellipse cx="225" cy="170" rx="34" ry="24" fill="#D4A574" stroke="#C49464" stroke-width="2"/>
+  <ellipse cx="225" cy="170" rx="34" ry="24" fill="url(#crispTexture4)" opacity="0.3"/>
+  
+  <!-- 鸡块 5 -->
+  <ellipse cx="200" cy="155" rx="32" ry="22" fill="#D4A574" stroke="#C49464" stroke-width="2"/>
+  <ellipse cx="200" cy="155" rx="32" ry="22" fill="url(#crispTexture5)" opacity="0.3"/>
+  
+  <!-- 番茄酱 -->
+  <ellipse cx="280" cy="150" rx="25" ry="20" fill="#E53935" opacity="0.9"/>
+  <ellipse cx="280" cy="150" rx="20" ry="15" fill="#D32F2F" opacity="0.5"/>
+  
+  <!-- 高光 -->
+  <circle cx="165" cy="135" r="5" fill="#E8C49A" opacity="0.6"/>
+  <circle cx="225" cy="130" r="6" fill="#E8C49A" opacity="0.6"/>
+  <circle cx="180" cy="170" r="5" fill="#E8C49A" opacity="0.6"/>
+  
+  <!-- 纹理定义 -->
+  <defs>
+    <radialGradient id="crispTexture1">
+      <stop offset="0%" stop-color="#E8C49A" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#8B6914" stop-opacity="0.3"/>
+    </radialGradient>
+    <radialGradient id="crispTexture2">
+      <stop offset="0%" stop-color="#E8C49A" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#8B6914" stop-opacity="0.3"/>
+    </radialGradient>
+    <radialGradient id="crispTexture3">
+      <stop offset="0%" stop-color="#E8C49A" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#8B6914" stop-opacity="0.3"/>
+    </radialGradient>
+    <radialGradient id="crispTexture4">
+      <stop offset="0%" stop-color="#E8C49A" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#8B6914" stop-opacity="0.3"/>
+    </radialGradient>
+    <radialGradient id="crispTexture5">
+      <stop offset="0%" stop-color="#E8C49A" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#8B6914" stop-opacity="0.3"/>
+    </radialGradient>
+  </defs>
+  
+  <!-- 文字 -->
+  <text x="200" y="280" font-family="Arial, sans-serif" font-size="24" fill="#5D4037" text-anchor="middle" font-weight="bold">
+    黄金鸡块
+  </text>
+  <text x="200" y="300" font-family="Arial, sans-serif" font-size="14" fill="#9E9E9E" text-anchor="middle">
+    5 块装
+  </text>
+</svg>
