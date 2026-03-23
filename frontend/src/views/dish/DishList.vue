@@ -33,12 +33,19 @@
             <el-card class="dish-item" shadow="hover">
               <div class="dish-image">
                 <el-image 
-                  :src="dish.image || '/placeholder.png'" 
+                  :src="dish.image" 
                   fit="cover"
                   class="dish-img">
+                  <template #placeholder>
+                    <div class="image-placeholder">
+                      <el-icon><Food /></el-icon>
+                      <span>加载中...</span>
+                    </div>
+                  </template>
                   <template #error>
                     <div class="image-error">
                       <el-icon><Food /></el-icon>
+                      <span>图片加载失败</span>
                     </div>
                   </template>
                 </el-image>
@@ -88,6 +95,48 @@ const dishList = ref([])
 const searchText = ref('')
 const addingId = ref(null)
 
+/**
+ * 根据菜品名称生成图片 URL
+ * 使用 Lorem Foods 和 Picsum 等免费图片服务
+ */
+function generateDishImage(dishName) {
+  // 菜品关键词映射（中文 -> 英文搜索词）
+  const keywordMap = {
+    '巨无霸': 'burger',
+    '汉堡': 'burger',
+    '麦香鸡': 'chicken-burger',
+    '套餐': 'fast-food',
+    '可乐': 'cola',
+    '香辣': 'spicy-chicken',
+    '鸡翅': 'chicken-wings',
+    '鸡块': 'chicken-nuggets',
+    '薯条': 'fries',
+    '炸鸡': 'fried-chicken',
+    '火锅': 'hotpot',
+    '米饭': 'rice',
+    '面条': 'noodles',
+    '披萨': 'pizza',
+    '沙拉': 'salad',
+    '咖啡': 'coffee',
+    '奶茶': 'bubble-tea',
+    '饮料': 'drink'
+  }
+  
+  // 查找匹配的关键词
+  let keyword = 'food'
+  for (const [cn, en] of Object.entries(keywordMap)) {
+    if (dishName.includes(cn)) {
+      keyword = en
+      break
+    }
+  }
+  
+  // 使用 Lorem Foods API（专门的美食图片）
+  // 或者使用 Picsum 作为备选
+  const seed = dishName.replace(/\s/g, '-').toLowerCase()
+  return `https://loremflickr.com/400/300/${keyword}?lock=${seed.length}`
+}
+
 // 加载菜品列表
 onMounted(async () => {
   await loadDishes()
@@ -100,7 +149,11 @@ async function loadDishes() {
     const result = await response.json()
     
     if (result.code === 200) {
-      dishList.value = result.data
+      // 为没有图片的菜品生成图片 URL
+      dishList.value = result.data.map(dish => ({
+        ...dish,
+        image: dish.image || generateDishImage(dish.name)
+      }))
     } else {
       ElMessage.error(result.message || '加载菜品失败')
     }
@@ -187,15 +240,24 @@ async function addToCart(dish) {
   height: 100%;
 }
 
+.image-placeholder,
 .image-error {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 100%;
   height: 200px;
-  background-color: #f5f7fa;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e4e7ed 100%);
   color: #909399;
+  font-size: 14px;
+}
+
+.image-placeholder .el-icon,
+.image-error .el-icon {
   font-size: 50px;
+  margin-bottom: 10px;
+  opacity: 0.5;
 }
 
 .dish-info {
