@@ -148,10 +148,10 @@ async function loadDishes() {
     const result = await response.json()
     
     if (result.code === 200) {
-      // 为没有图片的菜品生成 AI 图片 URL
+      // 为没有图片的菜品生成图片 URL，添加时间戳避免缓存
       dishList.value = result.data.map(dish => ({
         ...dish,
-        image: dish.image || generateDishImage(dish.name, dish.description)
+        image: dish.image || `${generateDishImage(dish.name, dish.description)}&t=${Date.now()}`
       }))
     } else {
       ElMessage.error(result.message || '加载菜品失败')
