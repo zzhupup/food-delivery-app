@@ -1,10 +1,14 @@
 package com.takeout.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.takeout.common.BaseContext;
 import com.takeout.dto.CartItemDTO;
 import com.takeout.dto.OrderDTO;
+import com.takeout.dto.OrderDetailDTO;
+import com.takeout.entity.OrderDetail;
 import com.takeout.entity.Orders;
+import com.takeout.mapper.OrderDetailMapper;
 import com.takeout.mapper.OrdersMapper;
 import com.takeout.service.CartItemService;
 import com.takeout.service.OrderService;
@@ -46,6 +50,9 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
 
     @Autowired
     private CartItemService cartItemService;
+
+    @Autowired
+    private OrderDetailMapper orderDetailMapper;
 
     @Override
     @Transactional
@@ -95,7 +102,22 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
         this.save(orders);
         log.info("【订单创建成功】orderId={}, orderNumber={}", orders.getId(), orderNumber);
 
-        // 8. 清空购物车
+        // 8. 保存订单明细
+        for (CartItemDTO item : cartItems) {
+            OrderDetail detail = new OrderDetail();
+            detail.setOrderId(orders.getId());
+            detail.setDishId(item.getDishId());
+            detail.setDishName(item.getDishName());
+            detail.setDishImage(item.getDishImage());
+            detail.setNumber(item.getCount());
+            detail.setPrice(item.getPrice());
+            detail.setAmount(item.getAmount());
+            detail.setCreateTime(LocalDateTime.now());
+            orderDetailMapper.insert(detail);
+        }
+        log.info("【订单明细已保存】orderId={}, 共 {} 项", orders.getId(), cartItems.size());
+
+        // 9. 清空购物车
         cartItemService.clearCartItems(orderDTO.getCartId());
         log.info("【已清空购物车】cartId={}", orderDTO.getCartId());
 
@@ -133,6 +155,56 @@ public class OrderServiceImpl extends ServiceImpl<OrdersMapper, Orders> implemen
             log.warn("【取消订单失败】当前状态不可取消，orderId={}, status={}", orderId, status);
             throw new RuntimeException("当前订单状态不可取消（仅待支付/已支付状态可取消）");
         }
+    }
+
+    @Override
+    public OrderDetailDTO getOrderDetailWithDetails(Long orderId) {
+        // 1. 获取当前用户 ID
+        Long userId = BaseContext.getCurrentId();
+        log.info("【查询订单详情】userId={}, orderId={}", userId, orderId);
+
+        // 2. 查询订单
+        Orders order = this.getById(orderId);
+        if (order == null) {
+            log.warn("【查询订单失败】订单不存在，orderId={}", orderId);
+            throw new RuntimeException("无该订单");
+        }
+
+        // 3. 验证订单是否都属于当前用户
+        if (!order.getUserId().equals(userId)) {
+            log.warn("【查询订单失败】无权操作，userId={}, orderId={}", userId, orderId);
+            throw new RuntimeException("无权操作该订单");
+        }
+
+        // 4. 查询订单明细
+        LambdaQueryWrapper<OrderDetail> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(OrderDetail::getOrderId, orderId);
+        List<OrderDetail> details = orderDetailMapper.selectList(queryWrapper);
+        log.info("【查询完成】orderId={}, 明细数={}", orderId, details.size());
+
+        // 5. 组装 DTO
+        OrderDetailDTO dto = new OrderDetailDTO();
+        dto.setOrder(order);
+        dto.setOrderDetails(details);
+
+        return dto;
+    }
+
+    @Override
+    public List<Orders> getUserOrders() {
+        // 1. 获取当前用户 ID
+        Long userId = BaseContext.getCurrentId();
+        log.info("【查询用户订单列表】userId={}", userId);
+
+        // 2. 查询当前用户的所有订单（按创建时间倒序）
+        LambdaQueryWrapper<Orders> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Orders::getUserId, userId)
+                .orderByDesc(Orders::getCreateTime);
+
+        List<Orders> orders = this.list(queryWrapper);
+        log.info("【查询完成】userId={}, 共 {} 个订单", userId, orders.size());
+
+        return orders;
     }
 
     /**

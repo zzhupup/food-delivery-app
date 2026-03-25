@@ -11,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * 订单 Controller
  *
@@ -51,5 +53,41 @@ public class OrderController {
         log.info("取消订单，orderId={}", id);
         orderService.cancelOrder(id);
         return Result.success("取消成功");
+    }
+
+    /**
+     * 获取订单详情
+     * GET /order/detail?id=xxx
+     */
+    @GetMapping("detail")
+    @Operation(summary = "获取订单详情", description = "根据订单 ID 查询订单详细信息（包含订单信息和明细列表）")
+    public Result<com.takeout.dto.OrderDetailDTO> getOrderDetail(
+            @Parameter(description = "订单 ID", required = true)
+            @RequestParam Long id) {
+        log.info("查询订单，orderId={}", id);
+        com.takeout.dto.OrderDetailDTO dto = orderService.getOrderDetailWithDetails(id);
+        return Result.success(dto);
+    }
+
+    /**
+     * 获取用户订单列表
+     * GET /order/list
+     */
+    @GetMapping("list")
+    @Operation(summary = "获取用户订单列表", description = "查询当前用户的所有订单列表")
+    public Result<List<Orders>> getOrderList() {
+        log.info("查询用户订单列表");
+        List<Orders> orders = orderService.getUserOrders();
+        return Result.success(orders);
+    }
+
+    /**
+     * 测试接口
+     * GET /order/test
+     */
+    @GetMapping("test")
+    @Operation(summary = "测试订单接口", description = "测试接口是否正常")
+    public Result<String> test() {
+        return Result.success("订单接口正常");
     }
 }

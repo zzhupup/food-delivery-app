@@ -279,8 +279,8 @@ function handleCheckout() {
     return
   }
   
-  ElMessage.info('结算功能开发中...')
-  // TODO: 跳转到订单确认页面
+  // 跳转到订单确认页面
+  router.push('/order/confirm')
 }
 </script>
 

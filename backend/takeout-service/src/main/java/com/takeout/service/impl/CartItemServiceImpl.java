@@ -117,6 +117,7 @@ public class CartItemServiceImpl extends ServiceImpl<CartItemMapper, CartItem> i
                 dto.setId(item.getId());
                 dto.setCartId(item.getCartId());
                 dto.setDishId(item.getDishId());
+                dto.setShopId(dish.getShopId()); // 设置店铺 ID
                 dto.setDishName(dish.getName());
                 dto.setDishImage(dish.getImage());
                 dto.setPrice(dish.getPrice());

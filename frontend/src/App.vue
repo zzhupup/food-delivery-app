@@ -20,6 +20,10 @@
             <el-icon><ShoppingCart /></el-icon>
             <span>购物车</span>
           </el-menu-item>
+          <el-menu-item index="/order/list">
+            <el-icon><Document /></el-icon>
+            <span>我的订单</span>
+          </el-menu-item>
         </el-menu>
       </el-header>
       
@@ -31,7 +35,7 @@
 </template>
 
 <script setup>
-import { HomeFilled, ShoppingCart, User, Food } from '@element-plus/icons-vue'
+import { HomeFilled, ShoppingCart, User, Food, Document } from '@element-plus/icons-vue'
 </script>
 
 <style>

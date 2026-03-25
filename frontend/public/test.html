@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>诊断页面</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    .success { color: green; }
+    .error { color: red; }
+    .info { color: blue; }
+    pre { background: #f5f5f5; padding: 10px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <h1>🔍 外卖平台诊断页面</h1>
+  
+  <h2>测试结果：</h2>
+  <div id="results"></div>
+
+  <script>
+    const results = document.getElementById('results');
+    
+    async function test() {
+      // 测试 1: 后端 API
+      try {
+        const response = await fetch('http://localhost:8080/order/list', {
+          headers: {
+            'Authorization': 'mock-token-123'
+          }
+        });
+        const data = await response.json();
+        results.innerHTML += `<p class="success">✅ 后端 API 正常 - 订单数量：${data.data?.length || 0}</p>`;
+      } catch (error) {
+        results.innerHTML += `<p class="error">❌ 后端 API 失败：${error.message}</p>`;
+      }
+
+      // 测试 2: 前端资源
+      try {
+        const response = await fetch('/src/main.js');
+        if (response.ok) {
+          results.innerHTML += `<p class="success">✅ 前端 main.js 加载正常</p>`;
+        } else {
+          results.innerHTML += `<p class="error">❌ 前端 main.js 加载失败</p>`;
+        }
+      } catch (error) {
+        results.innerHTML += `<p class="error">❌ 前端资源失败：${error.message}</p>`;
+      }
+
+      // 测试 3: Vue 和 Element Plus
+      try {
+        const response = await fetch('/node_modules/.vite/deps/vue.js');
+        if (response.ok) {
+          results.innerHTML += `<p class="success">✅ Vue 库加载正常</p>`;
+        } else {
+          results.innerHTML += `<p class="error">❌ Vue 库加载失败</p>`;
+        }
+      } catch (error) {
+        results.innerHTML += `<p class="error">❌ Vue 库失败：${error.message}</p>`;
+      }
+
+      // 测试 4: 购物车 API
+      try {
+        const response = await fetch('http://localhost:8080/cart/list', {
+          headers: {
+            'Authorization': 'mock-token-123'
+          }
+        });
+        const data = await response.json();
+        results.innerHTML += `<p class="success">✅ 购物车 API 正常 - 商品数量：${data.data?.length || 0}</p>`;
+      } catch (error) {
+        results.innerHTML += `<p class="error">❌ 购物车 API 失败：${error.message}</p>`;
+      }
+
+      // 测试 5: 菜品 API
+      try {
+        const response = await fetch('http://localhost:8080/dish/list');
+        const data = await response.json();
+        results.innerHTML += `<p class="success">✅ 菜品 API 正常 - 菜品数量：${data.data?.length || 0}</p>`;
+      } catch (error) {
+        results.innerHTML += `<p class="error">❌ 菜品 API 失败：${error.message}</p>`;
+      }
+
+      results.innerHTML += `<p class="info"><strong>提示：</strong>如果所有测试都通过但页面仍然空白，请检查浏览器控制台的 JavaScript 错误。</p>`;
+    }
+
+    test();
+  </script>
+</body>
+</html>

@@ -29,6 +29,11 @@ public class CartItemDTO {
     private Long dishId;
 
     /**
+     * 店铺 ID（从菜品关联）
+     */
+    private Long shopId;
+
+    /**
      * 菜品名称
      */
     private String dishName;
